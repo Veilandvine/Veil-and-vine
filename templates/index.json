@@ -1,6 +1,9 @@
 {
   "sections": {
-    "hero": { "type": "hero" }
+    "hero": { "type": "hero" },
+    "look-wall": { "type": "look-wall" },
+    "the-edit": { "type": "the-edit" },
+    "category-bands": { "type": "category-bands" }
   },
-  "order": ["hero"]
+  "order": ["hero", "look-wall", "the-edit", "category-bands"]
 }

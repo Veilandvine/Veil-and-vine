@@ -1,0 +1,61 @@
+<section class="shop-head">
+  <p class="breadcrumb reveal"><a href="{{ routes.root_url }}">Home</a> <span>/</span> {{ collection.title | default: 'Shop' }}</p>
+  <h1 class="reveal">{{ collection.title | default: 'Shop All' }}</h1>
+  {% if section.settings.description != blank %}
+    <p class="shop-head-lede reveal">{{ section.settings.description }}</p>
+  {% elsif collection.description != blank %}
+    <p class="shop-head-lede reveal">{{ collection.description }}</p>
+  {% endif %}
+
+  {% if section.settings.filter_menu != blank %}
+    <div class="shop-filters reveal" id="shop-filters" role="tablist" aria-label="Filter by category">
+      {% for link in section.settings.filter_menu.links %}
+        <a
+          href="{{ link.url }}"
+          class="filter-btn{% if link.url == collection.url or (link.url == routes.all_products_collection_url and collection.handle == 'all') %} is-active{% endif %}"
+        >{{ link.title }}</a>
+      {% endfor %}
+    </div>
+  {% endif %}
+</section>
+
+<section class="shop-grid-wrap">
+  <div class="shop-grid" id="product-grid">
+    {% paginate collection.products by 24 %}
+      {% for product in collection.products %}
+        <a class="product-card reveal" href="{{ product.url }}" style="transition-delay: {{ forloop.index0 | at_most: 6 | times: 0.05 }}s">
+          <span class="product-card-media">
+            <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy">
+          </span>
+          <span class="product-card-info">
+            <span class="product-card-name">{{ product.title }}</span>
+            <span class="product-card-meta">{{ collection.title }}{% if product.options_with_values.first.values.size > 0 %} · {{ product.options_with_values.first.values.first }}{% endif %}</span>
+            <span class="product-card-price">{{ product.price | money }}</span>
+          </span>
+        </a>
+      {% else %}
+        <p class="section-lede">No products here yet — add some to this collection in the Shopify admin.</p>
+      {% endfor %}
+    {% endpaginate %}
+  </div>
+
+  {% if paginate.pages > 1 %}
+    <nav class="pagination reveal" aria-label="Pagination">
+      {% if paginate.previous %}<a href="{{ paginate.previous.url }}">&larr; Prev</a>{% endif %}
+      {% for part in paginate.parts %}
+        {% if part.is_link %}<a href="{{ part.url }}">{{ part.title }}</a>{% else %}<span class="is-active">{{ part.title }}</span>{% endif %}
+      {% endfor %}
+      {% if paginate.next %}<a href="{{ paginate.next.url }}">Next &rarr;</a>{% endif %}
+    </nav>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Collection grid",
+  "settings": [
+    { "type": "textarea", "id": "description", "label": "Override description", "info": "Leave blank to use the collection's own description." },
+    { "type": "link_list", "id": "filter_menu", "label": "Filter menu", "info": "Create a menu in Navigation (e.g. All / Co-ords / Abayas / Hijabs / Dresses) linking to your collections." }
+  ]
+}
+{% endschema %}

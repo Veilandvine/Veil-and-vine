@@ -1,0 +1,202 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+<section class="pdp">
+  <p class="breadcrumb reveal">
+    <a href="{{ routes.root_url }}">Home</a> <span>/</span>
+    {% if product.collections.first %}
+      <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a> <span>/</span>
+    {% endif %}
+    {{ product.title }}
+  </p>
+
+  <div class="pdp-layout">
+    <div class="pdp-gallery reveal">
+      <div class="pdp-gallery-main">
+        <img src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" id="pdp-main-image">
+      </div>
+      {% if product.images.size > 1 %}
+        <div class="pdp-gallery-thumbs">
+          {% for image in product.images %}
+            <button type="button" class="pdp-gallery-thumb{% if forloop.first %} is-active{% endif %}" data-src="{{ image | image_url: width: 1200 }}" aria-label="View image {{ forloop.index }}">
+              <img src="{{ image | image_url: width: 200 }}" alt="">
+            </button>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="pdp-info reveal">
+      <p class="eyebrow">{{ product.type | default: product.vendor }}</p>
+      <h1>{{ product.title }}</h1>
+      <p class="pdp-price" id="pdp-price">
+        {{ current_variant.price | money }}
+        {% if current_variant.compare_at_price > current_variant.price %}
+          <s>{{ current_variant.compare_at_price | money }}</s>
+        {% endif %}
+      </p>
+      <div class="pdp-description">{{ product.description }}</div>
+
+      {% form 'product', product, id: 'pdp-form' %}
+        <input type="hidden" name="id" id="pdp-variant-id" value="{{ current_variant.id }}">
+
+        {% for option in product.options_with_values %}
+          <div class="pdp-option">
+            <span class="pdp-option-label">{{ option.name }}</span>
+            <div class="size-selector" data-option-index="{{ forloop.index0 }}">
+              {% for value in option.values %}
+                <button type="button" class="size-btn{% if option.selected_value == value %} is-active{% endif %}" data-value="{{ value | escape }}">{{ value }}</button>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+
+        <div class="pdp-option">
+          <span class="pdp-option-label">Quantity</span>
+          <div class="qty-stepper">
+            <button type="button" id="qty-decrease" aria-label="Decrease quantity">&minus;</button>
+            <span id="qty-value">1</span>
+            <button type="button" id="qty-increase" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-solid pdp-add" id="pdp-add-to-bag"{% unless current_variant.available %} disabled{% endunless %}>
+          {% if current_variant.available %}Add to Bag{% else %}Sold Out{% endif %}
+        </button>
+        <p class="pdp-size-note" id="pdp-size-note" role="status" aria-live="polite"></p>
+      {% endform %}
+
+      <div class="accordion">
+        {% if product.description != blank %}
+          <details open>
+            <summary>Fabric &amp; Details</summary>
+            {{ product.description }}
+          </details>
+        {% endif %}
+        <details>
+          <summary>Shipping &amp; Care</summary>
+          <p>Ships in 3–5 business days. Hand wash cold or dry clean; hang to dry out of direct sun to protect the colour.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% assign related_collection = product.collections.first %}
+{% if related_collection %}
+  {% assign related_products = related_collection.products | where: 'available' %}
+  <section class="related">
+    <div class="section-head reveal">
+      <p class="eyebrow">You Might Also Like</p>
+      <h2>More {{ related_collection.title | downcase }}</h2>
+    </div>
+    <div class="shop-grid related-grid">
+      {% assign shown = 0 %}
+      {% for related in related_collection.products %}
+        {% if related.handle != product.handle and shown < 4 %}
+          {% assign shown = shown | plus: 1 %}
+          <a class="product-card" href="{{ related.url }}">
+            <span class="product-card-media"><img src="{{ related.featured_image | image_url: width: 600 }}" alt="{{ related.featured_image.alt | default: related.title | escape }}" loading="lazy"></span>
+            <span class="product-card-info">
+              <span class="product-card-name">{{ related.title }}</span>
+              <span class="product-card-meta">{{ related_collection.title }}</span>
+              <span class="product-card-price">{{ related.price | money }}</span>
+            </span>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}
+
+<script type="application/json" id="pdp-variant-data">
+  {{ product.variants | json }}
+</script>
+
+<script>
+(function () {
+  var product = {
+    optionsCount: {{ product.options.size }},
+    variants: JSON.parse(document.getElementById('pdp-variant-data').textContent)
+  };
+
+  var form = document.getElementById('pdp-form');
+  if (!form) return;
+
+  var variantIdInput = document.getElementById('pdp-variant-id');
+  var priceEl = document.getElementById('pdp-price');
+  var addBtn = document.getElementById('pdp-add-to-bag');
+  var sizeNote = document.getElementById('pdp-size-note');
+  var selected = [];
+
+  document.querySelectorAll('.size-selector').forEach(function (group) {
+    var idx = parseInt(group.dataset.optionIndex, 10);
+    var active = group.querySelector('.size-btn.is-active');
+    selected[idx] = active ? active.dataset.value : null;
+
+    group.querySelectorAll('.size-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        group.querySelectorAll('.size-btn').forEach(function (b) { b.classList.remove('is-active'); });
+        btn.classList.add('is-active');
+        selected[idx] = btn.dataset.value;
+        sizeNote.textContent = '';
+        updateVariant();
+      });
+    });
+  });
+
+  function updateVariant() {
+    var match = product.variants.find(function (v) {
+      return v.options.every(function (opt, i) { return selected[i] == null || opt === selected[i]; });
+    });
+    if (!match) {
+      addBtn.disabled = true;
+      addBtn.textContent = 'Unavailable';
+      return;
+    }
+    variantIdInput.value = match.id;
+    priceEl.textContent = (match.price / 100).toLocaleString(undefined, { style: 'currency', currency: '{{ cart.currency.iso_code }}' });
+    addBtn.disabled = !match.available;
+    addBtn.textContent = match.available ? 'Add to Bag' : 'Sold Out';
+  }
+
+  /* Gallery thumb swap */
+  var mainImage = document.getElementById('pdp-main-image');
+  document.querySelectorAll('.pdp-gallery-thumb').forEach(function (thumb) {
+    thumb.addEventListener('click', function () {
+      document.querySelectorAll('.pdp-gallery-thumb').forEach(function (t) { t.classList.remove('is-active'); });
+      thumb.classList.add('is-active');
+      mainImage.src = thumb.dataset.src;
+    });
+  });
+
+  /* Quantity stepper */
+  var qty = 1;
+  var qtyValue = document.getElementById('qty-value');
+  document.getElementById('qty-decrease').addEventListener('click', function () {
+    qty = Math.max(1, qty - 1);
+    qtyValue.textContent = qty;
+  });
+  document.getElementById('qty-increase').addEventListener('click', function () {
+    qty = Math.min(9, qty + 1);
+    qtyValue.textContent = qty;
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (product.optionsCount > 0 && selected.some(function (s) { return !s; })) {
+      sizeNote.textContent = 'Pick a size before adding to your bag.';
+      return;
+    }
+    if (window.VV_Cart) {
+      window.VV_Cart.add(variantIdInput.value, qty);
+    }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": []
+}
+{% endschema %}

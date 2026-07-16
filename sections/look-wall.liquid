@@ -1,0 +1,32 @@
+<section class="editorial" id="lookwall">
+  <div class="section-head reveal">
+    <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+    <h2>{{ section.settings.title }}</h2>
+  </div>
+
+  {% if section.settings.collection != blank %}
+    {% assign tile_classes = 'a|b|c|d|e|g|f' | split: '|' %}
+    <div class="editorial-grid">
+      {% for product in section.settings.collection.products limit: 7 %}
+        <a class="editorial-figure editorial-figure--{{ tile_classes[forloop.index0] }} reveal" href="{{ product.url }}">
+          <img src="{{ product.featured_image | image_url: width: 700 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy">
+          <span class="editorial-tag">{{ product.title }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="section-lede">Select a collection in the theme editor to feature it here.</p>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Look Wall",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Look Wall" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Every piece, in its element" },
+    { "type": "collection", "id": "collection", "label": "Collection to feature (up to 7 products)" }
+  ],
+  "presets": [{ "name": "Look Wall" }]
+}
+{% endschema %}

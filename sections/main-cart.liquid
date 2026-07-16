@@ -1,0 +1,38 @@
+<section class="shop-head">
+  <p class="breadcrumb reveal"><a href="{{ routes.root_url }}">Home</a> <span>/</span> Bag</p>
+  <h1 class="reveal">Your Bag</h1>
+</section>
+
+{% if cart.item_count == 0 %}
+  <section class="pdp-empty">
+    <p class="cart-empty">Your bag is empty — browse the <a href="{{ routes.all_products_collection_url }}">shop</a> to find something.</p>
+  </section>
+{% else %}
+  {% form 'cart', cart %}
+    <div class="cart-drawer-body" style="position: static; height: auto; max-width: 640px; margin: 0 auto 2rem;">
+      {% for item in cart.items %}
+        <div class="cart-item">
+          <img src="{{ item.image | image_url: width: 144 }}" alt="{{ item.title | escape }}" width="72" height="90">
+          <div class="cart-item-info">
+            <p class="cart-item-name">{{ item.product.title }}</p>
+            <p class="cart-item-meta">{{ item.variant.title }} &middot; {{ item.final_price | money }}</p>
+            <div class="cart-item-qty">
+              <label class="sr-only" for="cart-qty-{{ forloop.index }}">Quantity</label>
+              <input id="cart-qty-{{ forloop.index }}" type="number" name="updates[{{ item.key }}]" value="{{ item.quantity }}" min="0" style="width: 3.5rem; text-align: center;">
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="cart-drawer-foot" style="position: static; max-width: 640px; margin: 0 auto;">
+      <div class="cart-subtotal"><span>Subtotal</span><span>{{ cart.total_price | money }}</span></div>
+      <button type="submit" name="update" class="btn btn-line" style="width: 100%; margin-bottom: 0.75rem;">Update Bag</button>
+      <button type="submit" name="checkout" class="btn btn-solid cart-checkout" style="width: 100%; display: block; text-align: center;">Checkout</button>
+    </div>
+  {% endform %}
+{% endif %}
+
+{% schema %}
+{ "name": "Cart page" }
+{% endschema %}

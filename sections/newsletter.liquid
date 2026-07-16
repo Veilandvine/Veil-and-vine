@@ -1,0 +1,31 @@
+<section class="join reveal" id="join">
+  <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+  <h2>{{ section.settings.title }}</h2>
+
+  {% form 'customer', id: 'join-form', class: 'join-form' %}
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    <label class="sr-only" for="join-email">Email address</label>
+    <input id="join-email" type="email" name="contact[email]" placeholder="you@email.com" required>
+    <button class="btn btn-solid" type="submit">Sign up</button>
+  {% endform %}
+
+  {% if form.posted_successfully? %}
+    <p class="join-note" id="join-note">You're on the list — first look lands in your inbox next drop.</p>
+  {% elsif form.errors %}
+    <p class="join-note" id="join-note">{{ form.errors.messages.first }}</p>
+  {% else %}
+    <p class="join-note" id="join-note">{{ section.settings.note }}</p>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Join the Vine" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "First look at new sets, before they're gone." },
+    { "type": "text", "id": "note", "label": "Helper text", "default": "One email a month, when there's something worth saying." }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

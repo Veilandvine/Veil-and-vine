@@ -1,0 +1,81 @@
+{% for block in section.blocks %}
+  <section class="category-band{% if block.settings.reverse %} category-band--reverse{% endif %}"{% if block.settings.anchor_id != blank %} id="{{ block.settings.anchor_id }}"{% endif %} {{ block.shopify_attributes }}>
+    <figure class="category-band-photo reveal">
+      {% if block.settings.image != blank %}
+        <img
+          src="{{ block.settings.image | image_url: width: 1400 }}"
+          srcset="{{ block.settings.image | image_url: width: 700 }} 700w, {{ block.settings.image | image_url: width: 1400 }} 1400w"
+          sizes="(max-width: 760px) 100vw, 55vw"
+          alt="{{ block.settings.image.alt | default: block.settings.title | escape }}"
+          style="object-position: {{ block.settings.focal_x | default: 50 }}% {{ block.settings.focal_y | default: 30 }}%;"
+          loading="lazy">
+      {% endif %}
+    </figure>
+    <div class="category-band-copy reveal">
+      <p class="eyebrow">{{ block.settings.eyebrow }}</p>
+      <h2>{{ block.settings.title }}<br><em>{{ block.settings.title_italic }}</em></h2>
+      {% if block.settings.description != blank %}<p>{{ block.settings.description }}</p>{% endif %}
+      {% if block.settings.button_text != blank %}
+        <a class="btn btn-solid" href="{{ block.settings.button_url }}">{{ block.settings.button_text }}</a>
+      {% endif %}
+    </div>
+  </section>
+{% endfor %}
+
+{% schema %}
+{
+  "name": "Category showcase",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "band",
+      "name": "Category band",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "range", "id": "focal_x", "label": "Focal point — horizontal %", "min": 0, "max": 100, "step": 5, "default": 50 },
+        { "type": "range", "id": "focal_y", "label": "Focal point — vertical %", "min": 0, "max": 100, "step": 5, "default": 30 },
+        { "type": "checkbox", "id": "reverse", "label": "Photo on the right", "default": false },
+        { "type": "text", "id": "anchor_id", "label": "Anchor ID (optional, for menu links)" },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Category" },
+        { "type": "text", "id": "title", "label": "Heading — line 1", "default": "Modest." },
+        { "type": "text", "id": "title_italic", "label": "Heading — line 2 (italic)", "default": "Never muted." },
+        { "type": "textarea", "id": "description", "label": "Description" },
+        { "type": "text", "id": "button_text", "label": "Button text", "default": "Shop Now" },
+        { "type": "url", "id": "button_url", "label": "Button link" }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "band",
+        "settings": {
+          "focal_x": 80, "focal_y": 30,
+          "eyebrow": "Abayas", "title": "Modest.", "title_italic": "Never muted.",
+          "description": "Cut loose enough to disappear into, finished with enough detail — embroidered trim, a considered drape — that it never reads as an afterthought.",
+          "button_text": "Shop Abayas"
+        }
+      },
+      {
+        "type": "band",
+        "settings": {
+          "reverse": true, "focal_x": 70, "focal_y": 38,
+          "eyebrow": "Hijabs", "title": "One hijab.", "title_italic": "Five quiet shades.",
+          "description": "A soft brushed jersey that holds its drape without slipping — from cream through to black, built to go with everything else in the edit.",
+          "button_text": "Shop Hijabs"
+        }
+      },
+      {
+        "type": "band",
+        "settings": {
+          "focal_x": 58, "focal_y": 20,
+          "eyebrow": "Dresses", "title": "Cut to move,", "title_italic": "not just to stand in.",
+          "description": "A tiered maxi silhouette in fluid chiffon — fitted enough to hold its shape, full enough to catch the wind when you turn.",
+          "button_text": "Shop Dresses"
+        }
+      }
+    ]
+  },
+  "presets": [{ "name": "Category showcase" }]
+}
+{% endschema %}

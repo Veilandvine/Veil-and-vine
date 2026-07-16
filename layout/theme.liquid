@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page_title }}{% unless page_title contains shop.name %} &mdash; {{ shop.name }}{% endunless %}</title>
+{% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+<link rel="canonical" href="{{ canonical_url }}">
+{% if settings.favicon %}
+  <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64 }}">
+{% endif %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+{{ 'base.css' | asset_url | stylesheet_tag }}
+<style>
+  :root {
+    --ink: {{ settings.color_ink }};
+    --linen: {{ settings.color_linen }};
+    --paper: {{ settings.color_paper }};
+    --clay: {{ settings.color_clay }};
+    --olive: {{ settings.color_olive }};
+    --aubergine: {{ settings.color_aubergine }};
+  }
+</style>
+
+{{ content_for_header }}
+</head>
+<body class="template-{{ request.page_type }}">
+
+<!-- ===== PRELOADER ===== -->
+<div class="preloader" id="preloader">
+  <span class="preloader-word">{{ shop.name | default: 'Veil & Vine' }}</span>
+  <span class="preloader-sub">{{ settings.brand_tagline | default: 'Modest Wear' }}</span>
+</div>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<svg class="vine-thread" viewBox="0 0 40 4000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+  <path id="vine-path" d="M20,0 C10,300 30,600 20,900 C10,1200 30,1500 20,1800 C10,2100 30,2400 20,2700 C10,3000 30,3300 20,3600 C14,3800 24,3900 20,4000" />
+</svg>
+
+{% section 'announcement-bar' %}
+{% section 'header' %}
+
+<!-- ===== CART DRAWER ===== -->
+{% render 'cart-drawer' %}
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<main id="main">
+  {{ content_for_layout }}
+</main>
+
+{% section 'footer' %}
+
+{{ 'vv-main.js' | asset_url | script_tag }}
+{{ 'vv-cart.js' | asset_url | script_tag }}
+</body>
+</html>

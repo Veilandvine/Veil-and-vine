@@ -1,0 +1,33 @@
+<section class="edit" id="edit">
+  <div class="section-head reveal">
+    <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+    <h2>{{ section.settings.title }}</h2>
+    {% if section.settings.description != blank %}<p class="section-lede">{{ section.settings.description }}</p>{% endif %}
+  </div>
+
+  {% if section.settings.collection != blank %}
+    <div class="edit-grid">
+      {% for product in section.settings.collection.products limit: 3 %}
+        <a class="edit-figure{% if forloop.first %} edit-figure--lead{% endif %} reveal" href="{{ product.url }}">
+          <img src="{{ product.featured_image | image_url: width: 900 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy">
+          <span class="fig-cap"><span>{{ product.type | default: product.title }}</span><span>{{ product.price | money }}</span></span>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="section-lede">Select a collection in the theme editor to feature it here.</p>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "The Edit",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Current Collection" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "The Edit" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Six pieces, one held palette. Cape sleeves and sash-tied waists cut for a body that still needs to move through its day." },
+    { "type": "collection", "id": "collection", "label": "Featured collection" }
+  ],
+  "presets": [{ "name": "The Edit" }]
+}
+{% endschema %}

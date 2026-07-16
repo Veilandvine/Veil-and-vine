@@ -1,0 +1,27 @@
+<section class="pdp-empty">
+  <p class="eyebrow">Account</p>
+  <h1>Sign In</h1>
+
+  {% form 'customer_login' %}
+    {% if form.errors %}
+      <p class="join-note">{{ form.errors.messages.first }}</p>
+    {% endif %}
+    <div class="pdp-option">
+      <label class="pdp-option-label" for="customer_email">Email</label>
+      <input type="email" name="customer[email]" id="customer_email" autocomplete="email" required>
+    </div>
+    {% unless form.password_needed == false %}
+      <div class="pdp-option">
+        <label class="pdp-option-label" for="customer_password">Password</label>
+        <input type="password" name="customer[password]" id="customer_password" autocomplete="current-password">
+      </div>
+    {% endunless %}
+    <button type="submit" class="btn btn-solid">Sign In</button>
+  {% endform %}
+
+  <p class="join-note" style="margin-top: 1.5rem;">
+    <a href="{{ routes.account_recover_url }}">Forgot your password?</a>
+    &nbsp;·&nbsp;
+    <a href="{{ routes.account_register_url }}">Create an account</a>
+  </p>
+</section>

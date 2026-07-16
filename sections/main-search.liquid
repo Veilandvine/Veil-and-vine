@@ -1,0 +1,33 @@
+<section class="shop-head">
+  <p class="breadcrumb reveal"><a href="{{ routes.root_url }}">Home</a> <span>/</span> Search</p>
+  <h1 class="reveal">{% if search.performed %}Results for &ldquo;{{ search.terms }}&rdquo;{% else %}Search{% endif %}</h1>
+  <p class="shop-head-lede reveal">{% if search.performed %}{{ search.results_count }} result{% unless search.results_count == 1 %}s{% endunless %}{% else %}Search co-ords, abayas, hijabs, and dresses.{% endif %}</p>
+
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-bar" style="position: static; opacity: 1; visibility: visible; max-height: none; margin: 2rem 0;">
+    <label class="sr-only" for="main-search-input">Search products</label>
+    <input id="main-search-input" type="search" name="q" placeholder="Search co-ords, abayas, hijabs…" value="{{ search.terms | escape }}">
+    <input type="hidden" name="type" value="product">
+  </form>
+</section>
+
+{% if search.performed %}
+  <section class="shop-grid-wrap">
+    <div class="shop-grid">
+      {% for item in search.results %}
+        <a class="product-card reveal" href="{{ item.url }}">
+          <span class="product-card-media"><img src="{{ item.featured_image | image_url: width: 600 }}" alt="{{ item.featured_image.alt | default: item.title | escape }}" loading="lazy"></span>
+          <span class="product-card-info">
+            <span class="product-card-name">{{ item.title }}</span>
+            {% if item.price %}<span class="product-card-price">{{ item.price | money }}</span>{% endif %}
+          </span>
+        </a>
+      {% else %}
+        <p class="section-lede">No results — try a different search.</p>
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+{ "name": "Search results" }
+{% endschema %}

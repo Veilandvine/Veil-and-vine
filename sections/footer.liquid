@@ -1,0 +1,95 @@
+<footer class="site-footer">
+  <div class="footer-top">
+    <a href="{{ routes.root_url }}" class="brand-mark brand-mark--footer" aria-label="{{ shop.name }} — home">
+      <span class="brand-text">
+        <span class="brand-word">{{ shop.name }}</span>
+        {% if section.settings.tagline != blank %}<span class="brand-sub">{{ section.settings.tagline }}</span>{% endif %}
+      </span>
+    </a>
+
+    <nav class="footer-nav" aria-label="Footer">
+      {% if section.settings.column_1_menu != blank %}
+        <div class="footer-col">
+          <h3>{{ section.settings.column_1_title }}</h3>
+          {% for link in section.settings.column_1_menu.links %}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% if section.settings.column_2_menu != blank %}
+        <div class="footer-col">
+          <h3>{{ section.settings.column_2_title }}</h3>
+          {% for link in section.settings.column_2_menu.links %}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {% endfor %}
+        </div>
+      {% endif %}
+      <div class="footer-col">
+        <h3>{{ section.settings.column_3_title }}</h3>
+        {% if section.settings.contact_email != blank %}
+          <a href="mailto:{{ section.settings.contact_email }}">{{ section.settings.contact_email }}</a>
+        {% endif %}
+        {% if section.settings.instagram_url != blank %}
+          <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener">Instagram</a>
+        {% endif %}
+      </div>
+    </nav>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline under logo",
+      "default": "Modest Wear"
+    },
+    {
+      "type": "text",
+      "id": "column_1_title",
+      "label": "Column 1 title",
+      "default": "Shop"
+    },
+    {
+      "type": "link_list",
+      "id": "column_1_menu",
+      "label": "Column 1 menu"
+    },
+    {
+      "type": "text",
+      "id": "column_2_title",
+      "label": "Column 2 title",
+      "default": "Studio"
+    },
+    {
+      "type": "link_list",
+      "id": "column_2_menu",
+      "label": "Column 2 menu"
+    },
+    {
+      "type": "text",
+      "id": "column_3_title",
+      "label": "Column 3 title",
+      "default": "Contact"
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Contact email",
+      "default": "hello@veilandvine.com"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    }
+  ]
+}
+{% endschema %}

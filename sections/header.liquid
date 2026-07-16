@@ -1,0 +1,90 @@
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
+        <span class="nav-toggle-icon"><span></span><span></span></span>
+      </button>
+
+      <a href="{{ routes.root_url }}" class="brand-mark" aria-label="{{ shop.name }} — home">
+        <span class="brand-text">
+          <span class="brand-word">{{ shop.name }}</span>
+          {% if section.settings.tagline != blank %}<span class="brand-sub">{{ section.settings.tagline }}</span>{% endif %}
+        </span>
+      </a>
+    </div>
+
+    <nav class="main-nav" aria-label="Primary">
+      {% for link in section.settings.main_menu.links %}
+        <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+      {% endfor %}
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" id="search-toggle" aria-expanded="false" aria-controls="search-bar" aria-label="Toggle search">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="16.2" y1="16.2" x2="21" y2="21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+      <a class="icon-btn" href="{{ routes.account_url }}" aria-label="Account">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4.5 20c1.4-3.8 4.4-5.8 7.5-5.8s6.1 2 7.5 5.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </a>
+      <button class="icon-btn cart-btn" data-cart-open aria-label="Open shopping bag">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M7 8V6a5 5 0 0 1 10 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="4" y="8" width="16" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        <span class="cart-count" id="cart-count-badge" data-count="{{ cart.item_count }}" aria-hidden="true">{{ cart.item_count }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="search-bar" id="search-bar">
+    <form action="{{ routes.search_url }}" method="get" role="search">
+      <label class="sr-only" for="search-input">Search products</label>
+      <input id="search-input" type="search" name="q" placeholder="Search co-ords, abayas, hijabs…" autocomplete="off" value="{{ search.terms | escape }}">
+      <input type="hidden" name="type" value="product">
+    </form>
+    <div class="search-results" id="search-results"></div>
+  </div>
+
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Primary mobile">
+    {% for link in section.settings.mobile_menu.links %}
+      <a href="{{ link.url }}">{{ link.title }}</a>
+    {% endfor %}
+    {% if section.settings.mobile_cta_text != blank %}
+      <a class="btn btn-solid" href="{{ section.settings.mobile_cta_url }}">{{ section.settings.mobile_cta_text }}</a>
+    {% endif %}
+  </nav>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline under logo",
+      "default": "Modest Wear"
+    },
+    {
+      "type": "link_list",
+      "id": "main_menu",
+      "label": "Main menu (desktop)",
+      "default": "main-menu"
+    },
+    {
+      "type": "link_list",
+      "id": "mobile_menu",
+      "label": "Menu (mobile drawer)",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "mobile_cta_text",
+      "label": "Mobile drawer button text",
+      "default": "Shop All"
+    },
+    {
+      "type": "url",
+      "id": "mobile_cta_url",
+      "label": "Mobile drawer button link"
+    }
+  ]
+}
+{% endschema %}

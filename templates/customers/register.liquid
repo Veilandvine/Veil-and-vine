@@ -1,0 +1,29 @@
+<section class="pdp-empty">
+  <p class="eyebrow">Account</p>
+  <h1>Create Account</h1>
+
+  {% form 'create_customer' %}
+    {% if form.errors %}
+      <p class="join-note">{{ form.errors.messages.first }}</p>
+    {% endif %}
+    <div class="pdp-option">
+      <label class="pdp-option-label" for="first_name">First name</label>
+      <input type="text" name="customer[first_name]" id="first_name" autocomplete="given-name">
+    </div>
+    <div class="pdp-option">
+      <label class="pdp-option-label" for="last_name">Last name</label>
+      <input type="text" name="customer[last_name]" id="last_name" autocomplete="family-name">
+    </div>
+    <div class="pdp-option">
+      <label class="pdp-option-label" for="register_email">Email</label>
+      <input type="email" name="customer[email]" id="register_email" autocomplete="email" required>
+    </div>
+    <div class="pdp-option">
+      <label class="pdp-option-label" for="register_password">Password</label>
+      <input type="password" name="customer[password]" id="register_password" autocomplete="new-password">
+    </div>
+    <button type="submit" class="btn btn-solid">Create Account</button>
+  {% endform %}
+
+  <p class="join-note" style="margin-top: 1.5rem;"><a href="{{ routes.account_login_url }}">Already have an account? Sign in</a></p>
+</section>

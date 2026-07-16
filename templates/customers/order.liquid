@@ -1,0 +1,21 @@
+<section class="pdp-empty">
+  <p class="eyebrow">Order {{ order.name }}</p>
+  <h1>Thank you, {{ order.customer.first_name }}</h1>
+  <p class="join-note" style="margin-bottom: 2rem;"><a href="{{ routes.account_url }}">&larr; Back to account</a></p>
+</section>
+
+<section class="shop-grid-wrap">
+  <div class="shop-grid">
+    {% for line_item in order.line_items %}
+      <div class="product-card">
+        <span class="product-card-media"><img src="{{ line_item.image | image_url: width: 400 }}" alt="{{ line_item.title | escape }}" loading="lazy"></span>
+        <span class="product-card-info">
+          <span class="product-card-name">{{ line_item.title }}</span>
+          <span class="product-card-meta">Qty {{ line_item.quantity }}</span>
+          <span class="product-card-price">{{ line_item.final_line_price | money }}</span>
+        </span>
+      </div>
+    {% endfor %}
+  </div>
+  <p class="cart-subtotal" style="max-width: 420px; margin: 2rem auto 0;"><span>Total</span><span>{{ order.total_price | money }}</span></p>
+</section>

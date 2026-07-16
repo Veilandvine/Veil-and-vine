@@ -1,0 +1,15 @@
+<section class="pdp">
+  <p class="breadcrumb reveal">
+    <a href="{{ routes.root_url }}">Home</a> <span>/</span>
+    <a href="{{ blog.url }}">{{ blog.title }}</a> <span>/</span>
+    {{ article.title }}
+  </p>
+  <div class="pdp-info reveal" style="max-width: 720px;">
+    <p class="eyebrow">{{ article.published_at | date: '%B %d, %Y' }}</p>
+    <h1>{{ article.title }}</h1>
+    {% if article.image %}
+      <figure style="margin: 2rem 0;"><img src="{{ article.image | image_url: width: 1200 }}" alt="{{ article.image.alt | default: article.title | escape }}" style="width: 100%; height: auto;"></figure>
+    {% endif %}
+    <div class="pdp-description">{{ article.content }}</div>
+  </div>
+</section>

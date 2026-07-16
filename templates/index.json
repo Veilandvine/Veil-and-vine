@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "hero": { "type": "hero" },
+    "look-wall": { "type": "look-wall" },
+    "the-edit": { "type": "the-edit" },
+    "category-bands": { "type": "category-bands" },
+    "philosophy": { "type": "philosophy" },
+    "lookbook": { "type": "lookbook" },
+    "newsletter": { "type": "newsletter" }
+  },
+  "order": ["hero", "look-wall", "the-edit", "category-bands", "philosophy", "lookbook", "newsletter"]
+}

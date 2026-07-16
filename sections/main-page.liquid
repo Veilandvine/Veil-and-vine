@@ -1,0 +1,11 @@
+<section class="pdp">
+  <p class="breadcrumb reveal"><a href="{{ routes.root_url }}">Home</a> <span>/</span> {{ page.title }}</p>
+  <div class="pdp-info reveal" style="max-width: 720px;">
+    <h1>{{ page.title }}</h1>
+    <div class="pdp-description">{{ page.content }}</div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Page" }
+{% endschema %}

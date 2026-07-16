@@ -1,0 +1,22 @@
+<section class="shop-head">
+  <p class="breadcrumb reveal"><a href="{{ routes.root_url }}">Home</a> <span>/</span> {{ blog.title }}</p>
+  <h1 class="reveal">{{ blog.title }}</h1>
+</section>
+
+<section class="shop-grid-wrap">
+  <div class="shop-grid">
+    {% paginate blog.articles by 12 %}
+      {% for article in blog.articles %}
+        <a class="product-card reveal" href="{{ article.url }}">
+          <span class="product-card-media">
+            {% if article.image %}<img src="{{ article.image | image_url: width: 600 }}" alt="{{ article.image.alt | default: article.title | escape }}" loading="lazy">{% endif %}
+          </span>
+          <span class="product-card-info">
+            <span class="product-card-name">{{ article.title }}</span>
+            <span class="product-card-meta">{{ article.published_at | date: '%B %d, %Y' }}</span>
+          </span>
+        </a>
+      {% endfor %}
+    {% endpaginate %}
+  </div>
+</section>

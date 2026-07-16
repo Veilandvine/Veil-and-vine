@@ -1,0 +1,26 @@
+<section class="pdp-empty">
+  <p class="eyebrow">Account</p>
+  <h1>Addresses</h1>
+  <p class="join-note" style="margin-bottom: 2rem;"><a href="{{ routes.account_url }}">&larr; Back to account</a></p>
+
+  {% for address in customer.addresses %}
+    <div class="pdp-option" style="text-align: left; max-width: 420px; margin: 0 auto 1.5rem;">
+      {{ address | format_address }}
+      {% form 'customer_address', address, class: 'inline' %}
+        <button type="submit" name="address[remove]" class="btn btn-line" style="margin-top: 0.5rem;" onclick="return confirm('Delete this address?')">Delete</button>
+      {% endform %}
+    </div>
+  {% else %}
+    <p class="section-lede">No saved addresses yet.</p>
+  {% endfor %}
+
+  {% form 'customer_address', customer.new_address, class: 'inline' %}
+    <div class="pdp-option"><label class="pdp-option-label" for="address_first_name">First name</label><input type="text" id="address_first_name" name="address[first_name]"></div>
+    <div class="pdp-option"><label class="pdp-option-label" for="address_last_name">Last name</label><input type="text" id="address_last_name" name="address[last_name]"></div>
+    <div class="pdp-option"><label class="pdp-option-label" for="address1">Address</label><input type="text" id="address1" name="address[address1]"></div>
+    <div class="pdp-option"><label class="pdp-option-label" for="address_city">City</label><input type="text" id="address_city" name="address[city]"></div>
+    <div class="pdp-option"><label class="pdp-option-label" for="address_zip">Postal code</label><input type="text" id="address_zip" name="address[zip]"></div>
+    <div class="pdp-option"><label class="pdp-option-label" for="address_country">Country</label><select id="address_country" name="address[country]">{{ form.country_option_tags }}</select></div>
+    <button type="submit" class="btn btn-solid">Add Address</button>
+  {% endform %}
+</section>

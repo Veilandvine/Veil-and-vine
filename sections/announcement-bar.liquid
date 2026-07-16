@@ -1,0 +1,51 @@
+<div class="announce-bar" id="announce-bar">
+  {% for block in section.blocks %}
+    <p class="announce-item" {{ block.shopify_attributes }}>
+      {% if block.settings.icon == 'shipping' %}
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" aria-hidden="true"><path d="M3 7h11v9H3z" stroke="currentColor" stroke-width="1.6"/><path d="M14 10h4l3 3v3h-7z" stroke="currentColor" stroke-width="1.6"/><circle cx="7" cy="18" r="1.6" fill="currentColor"/><circle cx="17" cy="18" r="1.6" fill="currentColor"/></svg>
+      {% elsif block.settings.icon == 'heart' %}
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 21C7 16.5 3 13 3 8.8 3 6.1 5.1 4 7.7 4c1.5 0 2.9.7 3.8 1.9C12.4 4.7 13.8 4 15.3 4 17.9 4 20 6.1 20 8.8c0 4.2-4 7.7-8 12.2Z"/></svg>
+      {% endif %}
+      {{ block.settings.text }}
+    </p>
+    {% unless forloop.last %}<span class="announce-sep">|</span>{% endunless %}
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "shipping", "label": "Shipping" },
+            { "value": "heart", "label": "Heart" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Message",
+          "default": "Free shipping on orders over $60"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "message", "settings": { "icon": "shipping", "text": "Free shipping on orders over $60" } },
+      { "type": "message", "settings": { "icon": "heart", "text": "A portion of every order supports humanitarian relief efforts in the Middle East" } }
+    ]
+  }
+}
+{% endschema %}

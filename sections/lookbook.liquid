@@ -1,0 +1,31 @@
+<section class="lookbook" id="lookbook">
+  <div class="section-head reveal">
+    <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+    <h2>{{ section.settings.title }}</h2>
+  </div>
+
+  {% if section.settings.collection != blank %}
+    <div class="lookbook-scroll">
+      {% for product in section.settings.collection.products limit: 8 %}
+        <a class="lookbook-figure reveal" href="{{ product.url }}">
+          <img src="{{ product.featured_image | image_url: width: 500 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy">
+          <span class="fig-cap">{{ product.title }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="section-lede">Select a collection in the theme editor to feature it here.</p>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Lookbook",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "From the Lookbook" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Recent arrivals" },
+    { "type": "collection", "id": "collection", "label": "Collection to feature" }
+  ],
+  "presets": [{ "name": "Lookbook" }]
+}
+{% endschema %}

@@ -1,0 +1,32 @@
+<section class="pdp-empty">
+  <p class="eyebrow">Account</p>
+  <h1>Hi, {{ customer.first_name | default: customer.email }}</h1>
+  <p class="join-note" style="margin: 1rem 0 2rem;">
+    <a href="{{ routes.account_addresses_url }}">Manage addresses</a>
+    &nbsp;·&nbsp;
+    {% form 'customer_logout' %}<button type="submit" style="background:none;border:none;text-decoration:underline;cursor:pointer;color:inherit;font:inherit;">Sign out</button>{% endform %}
+  </p>
+</section>
+
+<section class="shop-grid-wrap">
+  <div class="section-head reveal">
+    <p class="eyebrow">Order History</p>
+    <h2>Your Orders</h2>
+  </div>
+
+  {% if customer.orders.size > 0 %}
+    <div class="shop-grid">
+      {% for order in customer.orders %}
+        <a class="product-card reveal" href="{{ order.customer_url }}">
+          <span class="product-card-info">
+            <span class="product-card-name">Order {{ order.name }}</span>
+            <span class="product-card-meta">{{ order.created_at | date: '%B %d, %Y' }} &middot; {{ order.financial_status_label }}</span>
+            <span class="product-card-price">{{ order.total_price | money }}</span>
+          </span>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="section-lede">No orders yet.</p>
+  {% endif %}
+</section>

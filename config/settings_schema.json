@@ -1,0 +1,37 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Veil & Vine",
+    "theme_version": "1.0.0",
+    "theme_author": "Veil & Vine",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "text",
+        "id": "brand_tagline",
+        "label": "Tagline",
+        "default": "Modest Wear"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "color", "id": "color_ink", "label": "Ink", "default": "#2b241f" },
+      { "type": "color", "id": "color_linen", "label": "Linen", "default": "#f4efe7" },
+      { "type": "color", "id": "color_paper", "label": "Paper", "default": "#fbf8f3" },
+      { "type": "color", "id": "color_clay", "label": "Clay", "default": "#b8763f" },
+      { "type": "color", "id": "color_olive", "label": "Olive", "default": "#6b6c4a" },
+      { "type": "color", "id": "color_aubergine", "label": "Aubergine", "default": "#4a2f3a" }
+    ]
+  }
+]

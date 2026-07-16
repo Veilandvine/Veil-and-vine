@@ -1,0 +1,39 @@
+<section class="philosophy" id="philosophy">
+  <figure class="philosophy-photo reveal">
+    {% if section.settings.image != blank %}
+      <img src="{{ section.settings.image | image_url: width: 900 }}" alt="{{ section.settings.image.alt | escape }}" loading="lazy">
+    {% endif %}
+  </figure>
+  <div class="philosophy-copy reveal">
+    <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+    <h2>{{ section.settings.title }}<br><em>{{ section.settings.title_italic }}</em></h2>
+    {% if section.settings.body != blank %}{{ section.settings.body }}{% endif %}
+    {% if section.settings.button_text != blank %}
+      <a class="btn btn-line" href="{{ section.settings.button_url }}">{{ section.settings.button_text }}</a>
+    {% endif %}
+  </div>
+  <span class="ambient-leaf" style="bottom:8%; right:4%; width:56px; height:56px; animation-delay:-11s;" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C7 6 4 11 4 15a8 8 0 0 0 16 0c0-4-3-9-8-13Z" opacity="0.4"/></svg>
+  </span>
+</section>
+
+{% schema %}
+{
+  "name": "Our Purpose",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Photo" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our Purpose" },
+    { "type": "text", "id": "title", "label": "Heading — line 1", "default": "More Than" },
+    { "type": "text", "id": "title_italic", "label": "Heading — line 2 (italic)", "default": "Just Clothing" },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body copy",
+      "default": "<p>At Veil &amp; Vine, we believe true beauty lies in modesty, confidence, and intention.</p><p>Nothing here is trend-timed. We'd rather you wear a piece for four years than four weeks.</p>"
+    },
+    { "type": "text", "id": "button_text", "label": "Button text", "default": "Our Story" },
+    { "type": "url", "id": "button_url", "label": "Button link" }
+  ],
+  "presets": [{ "name": "Our Purpose" }]
+}
+{% endschema %}

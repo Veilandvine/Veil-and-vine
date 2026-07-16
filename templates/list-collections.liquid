@@ -1,0 +1,21 @@
+<section class="shop-head">
+  <p class="breadcrumb reveal"><a href="{{ routes.root_url }}">Home</a> <span>/</span> Collections</p>
+  <h1 class="reveal">All Collections</h1>
+</section>
+
+<section class="shop-grid-wrap">
+  <div class="shop-grid">
+    {% for collection in collections %}
+      <a class="product-card reveal" href="{{ collection.url }}">
+        <span class="product-card-media">
+          {% if collection.image %}
+            <img src="{{ collection.image | image_url: width: 600 }}" alt="{{ collection.image.alt | default: collection.title | escape }}" loading="lazy">
+          {% endif %}
+        </span>
+        <span class="product-card-info">
+          <span class="product-card-name">{{ collection.title }}</span>
+        </span>
+      </a>
+    {% endfor %}
+  </div>
+</section>

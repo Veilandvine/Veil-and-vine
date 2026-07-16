@@ -1,0 +1,36 @@
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-drawer" id="cart-drawer" aria-hidden="true" aria-label="Shopping bag">
+  <div class="cart-drawer-head">
+    <h2>Your Bag</h2>
+    <button class="icon-btn" id="cart-close" aria-label="Close bag">&times;</button>
+  </div>
+
+  <div class="cart-drawer-body" id="cart-body">
+    {% if cart.item_count == 0 %}
+      <p class="cart-empty">Your bag is empty — browse the <a href="{{ routes.all_products_collection_url }}">shop</a> to find something.</p>
+    {% else %}
+      {% for item in cart.items %}
+        <div class="cart-item" data-line="{{ forloop.index }}">
+          <img src="{{ item.image | image_url: width: 144 }}" alt="{{ item.title | escape }}" width="72" height="90">
+          <div class="cart-item-info">
+            <p class="cart-item-name">{{ item.product.title }}</p>
+            <p class="cart-item-meta">{{ item.variant.title }} &middot; {{ item.final_price | money }}</p>
+            <div class="cart-item-qty">
+              <button type="button" data-cart-decrease="{{ forloop.index }}" aria-label="Decrease quantity">&minus;</button>
+              <span>{{ item.quantity }}</span>
+              <button type="button" data-cart-increase="{{ forloop.index }}" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+          <button type="button" class="cart-item-remove" data-cart-remove="{{ forloop.index }}" aria-label="Remove {{ item.product.title | escape }} from bag">&times;</button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <div class="cart-drawer-foot" id="cart-foot">
+    {% if cart.item_count > 0 %}
+      <div class="cart-subtotal"><span>Subtotal</span><span>{{ cart.total_price | money }}</span></div>
+      <a class="btn btn-solid cart-checkout" href="{{ routes.cart_url }}">Checkout</a>
+    {% endif %}
+  </div>
+</aside>

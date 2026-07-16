@@ -1,0 +1,22 @@
+{
+  "current": {
+    "brand_tagline": "Modest Wear",
+    "color_ink": "#2b241f",
+    "color_linen": "#f4efe7",
+    "color_paper": "#fbf8f3",
+    "color_clay": "#b8763f",
+    "color_olive": "#6b6c4a",
+    "color_aubergine": "#4a2f3a"
+  },
+  "presets": {
+    "Default": {
+      "brand_tagline": "Modest Wear",
+      "color_ink": "#2b241f",
+      "color_linen": "#f4efe7",
+      "color_paper": "#fbf8f3",
+      "color_clay": "#b8763f",
+      "color_olive": "#6b6c4a",
+      "color_aubergine": "#4a2f3a"
+    }
+  }
+}

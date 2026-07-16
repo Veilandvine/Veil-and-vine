@@ -1,0 +1,11 @@
+<section class="pdp-empty">
+  <p class="eyebrow">Account</p>
+  <h1>Activate Your Account</h1>
+  {% form 'activate_customer_password' %}
+    {% if form.errors %}<p class="join-note">{{ form.errors.messages.first }}</p>{% endif %}
+    <div class="pdp-option"><label class="pdp-option-label" for="activate_password">Password</label><input type="password" name="customer[password]" id="activate_password"></div>
+    <div class="pdp-option"><label class="pdp-option-label" for="activate_password_confirmation">Confirm password</label><input type="password" name="customer[password_confirmation]" id="activate_password_confirmation"></div>
+    <button type="submit" name="activate" class="btn btn-solid">Activate Account</button>
+    <button type="submit" name="decline" class="btn btn-line" style="margin-left: 0.75rem;">Decline</button>
+  {% endform %}
+</section>

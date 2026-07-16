@@ -1,0 +1,48 @@
+<section class="hero" id="top">
+  <figure class="hero-photo" data-parallax>
+    {% if section.settings.image != blank %}
+      <img
+        src="{{ section.settings.image | image_url: width: 1820 }}"
+        srcset="{{ section.settings.image | image_url: width: 900 }} 900w, {{ section.settings.image | image_url: width: 1820 }} 1820w"
+        sizes="100vw"
+        alt="{{ section.settings.image.alt | default: section.settings.heading | escape }}"
+        width="{{ section.settings.image.width }}" height="{{ section.settings.image.height }}"
+        loading="eager">
+    {% endif %}
+  </figure>
+
+  <div class="hero-copy reveal">
+    <h1>{{ section.settings.heading_line_1 }}<br><em>{{ section.settings.heading_line_2 }}</em></h1>
+    {% if section.settings.tagline != blank %}<p class="hero-tagline">{{ section.settings.tagline }}</p>{% endif %}
+    <div class="hero-actions">
+      {% if section.settings.button_text != blank %}
+        <a class="btn btn-solid" href="{{ section.settings.button_url }}">{{ section.settings.button_text }}</a>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if section.settings.badge_text != blank %}
+    <a class="hero-badge" href="{{ section.settings.badge_url }}">
+      <span class="hero-badge-word">{{ section.settings.badge_text }}</span>
+      {% if section.settings.badge_cta != blank %}<span class="hero-badge-cta">{{ section.settings.badge_cta }}</span>{% endif %}
+    </a>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Hero photo" },
+    { "type": "text", "id": "heading_line_1", "label": "Heading — line 1", "default": "Modesty" },
+    { "type": "text", "id": "heading_line_2", "label": "Heading — line 2 (italic)", "default": "With Purpose" },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Timeless pieces. Pure intentions." },
+    { "type": "text", "id": "button_text", "label": "Button text", "default": "Shop Collection" },
+    { "type": "url", "id": "button_url", "label": "Button link" },
+    { "type": "text", "id": "badge_text", "label": "Badge text (use <br> to break lines)", "default": "New<br>Arrivals" },
+    { "type": "text", "id": "badge_cta", "label": "Badge subtext", "default": "Shop Now →" },
+    { "type": "url", "id": "badge_url", "label": "Badge link" }
+  ],
+  "presets": [{ "name": "Hero" }]
+}
+{% endschema %}

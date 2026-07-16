@@ -1,0 +1,19 @@
+{
+  "general": {
+    "search": {
+      "placeholder": "Search co-ords, abayas, hijabs…"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to Bag",
+      "sold_out": "Sold Out",
+      "unavailable": "Unavailable"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Your Bag"
+    }
+  }
+}

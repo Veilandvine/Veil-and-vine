@@ -15,7 +15,14 @@
       {% endfor %}
     </div>
   {% else %}
-    <p class="section-lede">Select a collection in the theme editor to feature it here.</p>
+    {% assign fallback_images = 'lookbook-flatlay-rack-2.png|lookbook-stilllife-vase-1.png|lookbook-stilllife-notecard.png' | split: '|' %}
+    <div class="edit-grid">
+      {% for image in fallback_images %}
+        <div class="edit-figure{% if forloop.first %} edit-figure--lead{% endif %} reveal">
+          <img src="{{ image | asset_url }}" alt="" loading="lazy">
+        </div>
+      {% endfor %}
+    </div>
   {% endif %}
 </section>
 

@@ -10,6 +10,7 @@
           "type": "band",
           "settings": {
             "focal_x": 80, "focal_y": 30,
+            "fallback_asset": "category-abayas.png",
             "eyebrow": "Abayas", "title": "Modest.", "title_italic": "Never muted.",
             "description": "Cut loose enough to disappear into, finished with enough detail — embroidered trim, a considered drape — that it never reads as an afterthought.",
             "button_text": "Shop Abayas"
@@ -19,6 +20,7 @@
           "type": "band",
           "settings": {
             "reverse": true, "focal_x": 70, "focal_y": 40,
+            "fallback_asset": "category-hijabs.png",
             "eyebrow": "Hijabs", "title": "One hijab.", "title_italic": "Five quiet shades.",
             "description": "A soft brushed jersey that holds its drape without slipping — from cream through to black, built to go with everything else in the edit.",
             "button_text": "Shop Hijabs"
@@ -28,6 +30,7 @@
           "type": "band",
           "settings": {
             "focal_x": 60, "focal_y": 20,
+            "fallback_asset": "category-dresses.png",
             "eyebrow": "Dresses", "title": "Cut to move,", "title_italic": "not just to stand in.",
             "description": "A tiered maxi silhouette in fluid chiffon — fitted enough to hold its shape, full enough to catch the wind when you turn.",
             "button_text": "Shop Dresses"

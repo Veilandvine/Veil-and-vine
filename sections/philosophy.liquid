@@ -2,6 +2,8 @@
   <figure class="philosophy-photo reveal">
     {% if section.settings.image != blank %}
       <img src="{{ section.settings.image | image_url: width: 900 }}" alt="{{ section.settings.image.alt | escape }}" loading="lazy">
+    {% else %}
+      <img src="{{ 'lookbook-stilllife-vase-1.png' | asset_url }}" alt="{{ section.settings.title }} {{ section.settings.title_italic }}" loading="lazy">
     {% endif %}
   </figure>
   <div class="philosophy-copy reveal">

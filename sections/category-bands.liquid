@@ -9,6 +9,13 @@
           alt="{{ block.settings.image.alt | default: block.settings.title | escape }}"
           style="object-position: {{ block.settings.focal_x | default: 50 }}% {{ block.settings.focal_y | default: 30 }}%;"
           loading="lazy">
+      {% elsif block.settings.fallback_asset != blank %}
+        <img
+          src="{{ block.settings.fallback_asset | asset_url }}"
+          sizes="(max-width: 760px) 100vw, 55vw"
+          alt="{{ block.settings.title | escape }}"
+          style="object-position: {{ block.settings.focal_x | default: 50 }}% {{ block.settings.focal_y | default: 30 }}%;"
+          loading="lazy">
       {% endif %}
     </figure>
     <div class="category-band-copy reveal">
@@ -32,6 +39,7 @@
       "name": "Category band",
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "text", "id": "fallback_asset", "label": "Fallback theme asset filename (used until a photo is uploaded above)" },
         { "type": "range", "id": "focal_x", "label": "Focal point — horizontal %", "min": 0, "max": 100, "step": 5, "default": 50 },
         { "type": "range", "id": "focal_y", "label": "Focal point — vertical %", "min": 0, "max": 100, "step": 5, "default": 30 },
         { "type": "checkbox", "id": "reverse", "label": "Photo on the right", "default": false },

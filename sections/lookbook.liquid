@@ -14,7 +14,14 @@
       {% endfor %}
     </div>
   {% else %}
-    <p class="section-lede">Select a collection in the theme editor to feature it here.</p>
+    {% assign fallback_images = 'lookbook-flatlay-rack-1.png|lookbook-flatlay-fabrics.png|lookbook-stilllife-vase-1.png|lookbook-flatlay-rack-2.png|lookbook-stilllife-notecard.png|lookbook-flatlay-rack-1.png' | split: '|' %}
+    <div class="lookbook-scroll">
+      {% for image in fallback_images %}
+        <div class="lookbook-figure reveal">
+          <img src="{{ image | asset_url }}" alt="" loading="lazy">
+        </div>
+      {% endfor %}
+    </div>
   {% endif %}
 </section>
 

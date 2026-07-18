@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main-product": {
+      "type": "main-product",
+      "settings": {
+        "pre_order_mode": true,
+        "pre_order_note": "Ships within 2-3 weeks."
+      }
+    }
+  },
+  "order": ["main-product"]
+}

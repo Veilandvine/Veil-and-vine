@@ -59,9 +59,18 @@
           </div>
         </div>
 
-        <button type="submit" class="btn btn-solid pdp-add" id="pdp-add-to-bag"{% unless current_variant.available %} disabled{% endunless %}>
-          {% if current_variant.available %}Add to Bag{% else %}Sold Out{% endif %}
-        </button>
+        {% if section.settings.pre_order_mode %}
+          <button type="submit" class="btn btn-solid pdp-add" id="pdp-add-to-bag">
+            Pre-Order
+          </button>
+          {% if section.settings.pre_order_note != blank %}
+            <p class="pdp-size-note" style="opacity: 1;">{{ section.settings.pre_order_note }}</p>
+          {% endif %}
+        {% else %}
+          <button type="submit" class="btn btn-solid pdp-add" id="pdp-add-to-bag"{% unless current_variant.available %} disabled{% endunless %}>
+            {% if current_variant.available %}Add to Bag{% else %}Sold Out{% endif %}
+          </button>
+        {% endif %}
         <p class="pdp-size-note" id="pdp-size-note" role="status" aria-live="polite"></p>
       {% endform %}
 
@@ -116,7 +125,8 @@
 (function () {
   var product = {
     optionsCount: {{ product.options.size }},
-    variants: JSON.parse(document.getElementById('pdp-variant-data').textContent)
+    variants: JSON.parse(document.getElementById('pdp-variant-data').textContent),
+    preOrder: {{ section.settings.pre_order_mode | default: false | json }}
   };
 
   var form = document.getElementById('pdp-form');
@@ -149,14 +159,21 @@
       return v.options.every(function (opt, i) { return selected[i] == null || opt === selected[i]; });
     });
     if (!match) {
-      addBtn.disabled = true;
-      addBtn.textContent = 'Unavailable';
+      if (!product.preOrder) {
+        addBtn.disabled = true;
+        addBtn.textContent = 'Unavailable';
+      }
       return;
     }
     variantIdInput.value = match.id;
     priceEl.textContent = (match.price / 100).toLocaleString(undefined, { style: 'currency', currency: '{{ cart.currency.iso_code }}' });
-    addBtn.disabled = !match.available;
-    addBtn.textContent = match.available ? 'Add to Bag' : 'Sold Out';
+    if (product.preOrder) {
+      addBtn.disabled = false;
+      addBtn.textContent = 'Pre-Order';
+    } else {
+      addBtn.disabled = !match.available;
+      addBtn.textContent = match.available ? 'Add to Bag' : 'Sold Out';
+    }
   }
 
   /* Gallery thumb swap */
@@ -197,6 +214,9 @@
 {% schema %}
 {
   "name": "Product",
-  "settings": []
+  "settings": [
+    { "type": "checkbox", "id": "pre_order_mode", "label": "Enable pre-order mode", "info": "Shows a 'Pre-Order' button instead of 'Add to Bag', and keeps it enabled even if the variant is marked out of stock. Turn on 'Continue selling when out of stock' on the product's variants in Shopify Admin for this to work at checkout too.", "default": false },
+    { "type": "text", "id": "pre_order_note", "label": "Pre-order note", "default": "Ships within 2-3 weeks." }
+  ]
 }
 {% endschema %}

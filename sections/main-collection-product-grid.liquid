@@ -10,9 +10,16 @@
   {% if section.settings.filter_menu != blank %}
     <div class="shop-filters reveal" id="shop-filters" role="tablist" aria-label="Filter by category">
       {% for link in section.settings.filter_menu.links %}
+        {% assign is_active = false %}
+        {% if link.url == collection.url %}
+          {% assign is_active = true %}
+        {% endif %}
+        {% if link.url == routes.all_products_collection_url and collection.handle == 'all' %}
+          {% assign is_active = true %}
+        {% endif %}
         <a
           href="{{ link.url }}"
-          class="filter-btn{% if link.url == collection.url or (link.url == routes.all_products_collection_url and collection.handle == 'all') %} is-active{% endif %}"
+          class="filter-btn{% if is_active %} is-active{% endif %}"
         >{{ link.title }}</a>
       {% endfor %}
     </div>

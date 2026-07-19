@@ -35,6 +35,7 @@
         {% endif %}
       </p>
       <div class="pdp-description">{{ product.description }}</div>
+      <p class="pdp-description" style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--ink-soft);">A portion of every order supports humanitarian relief efforts in the Middle East.</p>
 
       {% form 'product', product, id: 'pdp-form' %}
         <input type="hidden" name="id" id="pdp-variant-id" value="{{ current_variant.id }}">
@@ -92,12 +93,6 @@
       {% endform %}
 
       <div class="accordion">
-        {% if product.description != blank %}
-          <details open>
-            <summary>Fabric &amp; Details</summary>
-            {{ product.description }}
-          </details>
-        {% endif %}
         <details>
           <summary>Shipping &amp; Care</summary>
           <p>Ships in 3–5 business days. Hand wash cold or dry clean; hang to dry out of direct sun to protect the colour.</p>

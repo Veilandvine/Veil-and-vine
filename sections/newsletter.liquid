@@ -7,15 +7,15 @@
     <label class="sr-only" for="join-email">Email address</label>
     <input id="join-email" type="email" name="contact[email]" placeholder="you@email.com" required>
     <button class="btn btn-solid" type="submit">Sign up</button>
-  {% endform %}
 
-  {% if form.posted_successfully? %}
-    <p class="join-note" id="join-note">You're on the list — first look lands in your inbox next drop.</p>
-  {% elsif form.errors %}
-    <p class="join-note" id="join-note">{{ form.errors.messages.first }}</p>
-  {% else %}
-    <p class="join-note" id="join-note">{{ section.settings.note }}</p>
-  {% endif %}
+    {% if form.posted_successfully? %}
+      <p class="join-note" id="join-note" style="opacity: 1;">You're on the list — first look lands in your inbox next drop.</p>
+    {% elsif form.errors %}
+      <p class="join-note" id="join-note" style="opacity: 1;">{{ form.errors.messages.first }}</p>
+    {% else %}
+      <p class="join-note" id="join-note">{{ section.settings.note }}</p>
+    {% endif %}
+  {% endform %}
 </section>
 
 {% schema %}

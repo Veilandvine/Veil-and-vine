@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main-page-our-story": {
+      "type": "main-page-our-story",
+      "blocks": {
+        "faith": { "type": "value", "settings": { "icon": "heart", "title": "Faith & Purpose", "description": "Guided by faith, driven by purpose." } },
+        "modesty": { "type": "value", "settings": { "icon": "dress", "title": "Timeless Modesty", "description": "Elegant, modest pieces for everyday and beyond." } },
+        "giving": { "type": "value", "settings": { "icon": "hands", "title": "Giving Back", "description": "A portion of every order supports humanitarian relief efforts in the Middle East." } },
+        "quality": { "type": "value", "settings": { "icon": "leaf", "title": "Quality You Trust", "description": "Carefully selected fabrics and thoughtful details in every piece." } }
+      },
+      "block_order": ["faith", "modesty", "giving", "quality"]
+    }
+  },
+  "order": ["main-page-our-story"]
+}

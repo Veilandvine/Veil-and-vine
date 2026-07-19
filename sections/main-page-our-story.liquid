@@ -1,0 +1,109 @@
+<section class="story-hero">
+  <div class="story-hero-copy reveal">
+    <p class="breadcrumb"><a href="{{ routes.root_url }}">Home</a> <span>/</span> {{ page.title }}</p>
+    <h1>{{ page.title }}</h1>
+    <span class="story-divider" aria-hidden="true">
+      <svg viewBox="0 0 120 16" preserveAspectRatio="xMidYMid meet"><path d="M0 8h40M120 8H80M60 2l-6 6 6 6M60 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+    </span>
+    <div class="story-body">{{ page.content }}</div>
+  </div>
+  <figure class="story-hero-photo reveal">
+    {% if section.settings.hero_image != blank %}
+      <img src="{{ section.settings.hero_image | image_url: width: 1400 }}" alt="{{ page.title | escape }}" loading="eager">
+    {% else %}
+      <img src="{{ 'lookbook-flatlay-rack-2.png' | asset_url }}" alt="{{ page.title | escape }}" loading="eager">
+    {% endif %}
+  </figure>
+</section>
+
+<section class="story-journey">
+  <div class="story-journey-col reveal">
+    <p class="story-eyebrow">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M20 4c-8 0-14 6-14 14 0 0 10-1 14-14Z"/><path d="M6 18c2-4 6-8 12-12"/></svg>
+      {{ section.settings.journey_title }}
+    </p>
+    <p>{{ section.settings.journey_body }}</p>
+  </div>
+  <span class="story-journey-divider" aria-hidden="true"></span>
+  <div class="story-journey-col reveal">
+    <p class="story-eyebrow">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M20 4c-8 0-14 6-14 14 0 0 10-1 14-14Z"/><path d="M6 18c2-4 6-8 12-12"/></svg>
+      {{ section.settings.why_title }}
+    </p>
+    <p>{{ section.settings.why_body }}</p>
+  </div>
+</section>
+
+<section class="story-stand-for">
+  <h2 class="reveal">{{ section.settings.stand_for_heading }}</h2>
+  <div class="story-values">
+    {% assign icons = 'heart|dress|hands|leaf' | split: '|' %}
+    {% for block in section.blocks %}
+      <div class="story-value reveal">
+        <span class="story-value-icon" aria-hidden="true">
+          {% case block.settings.icon %}
+            {% when 'heart' %}
+              <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 20.5C6 16.8 3 13.1 3 9.2 3 6.3 5.2 4 8 4c1.7 0 3.2.9 4 2.2C12.8 4.9 14.3 4 16 4c2.8 0 5 2.3 5 5.2 0 3.9-3 7.6-9 11.3Z"/></svg>
+            {% when 'dress' %}
+              <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M9 3h6l1 3-2 2 3 12H7l3-12-2-2 1-3Z"/><path d="M9 3c0 1.5 1.3 2.5 3 2.5S15 4.5 15 3"/></svg>
+            {% when 'hands' %}
+              <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 14c0-4 2.5-8 6-9.5"/><path d="M20 14c0-4-2.5-8-6-9.5"/><path d="M4 14c2 3 4.5 5 8 5.5"/><path d="M20 14c-2 3-4.5 5-8 5.5"/></svg>
+            {% else %}
+              <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M20 4c-8 0-14 6-14 14 0 0 10-1 14-14Z"/><path d="M6 18c2-4 6-8 12-12"/></svg>
+          {% endcase %}
+        </span>
+        <p class="story-value-title">{{ block.settings.title }}</p>
+        <p class="story-value-desc">{{ block.settings.description }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% if section.settings.mission_image != blank %}
+  {% assign mission_bg = section.settings.mission_image | image_url: width: 1600 %}
+{% else %}
+  {% assign mission_bg = 'lookbook-flatlay-fabrics.png' | asset_url %}
+{% endif %}
+<section class="story-mission" style="background-image: url('{{ mission_bg }}');">
+  <div class="story-mission-inner reveal">
+    <h2>{{ section.settings.mission_heading }}</h2>
+    <span class="story-divider story-divider--light" aria-hidden="true">
+      <svg viewBox="0 0 120 16" preserveAspectRatio="xMidYMid meet"><path d="M0 8h40M120 8H80M60 2l-6 6 6 6M60 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+    </span>
+    <p>{{ section.settings.mission_body }}</p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Our Story page",
+  "settings": [
+    { "type": "image_picker", "id": "hero_image", "label": "Hero photo" },
+    { "type": "text", "id": "journey_title", "label": "Journey title", "default": "Our Journey" },
+    { "type": "textarea", "id": "journey_body", "label": "Journey body", "default": "Veil & Vine began with a heartfelt desire to create pieces that help women feel confident, comfortable, and connected to their identity. Every piece is thoughtfully chosen to bring together elegance, quality, and modesty you can trust." },
+    { "type": "text", "id": "why_title", "label": "Why started title", "default": "Why We Started" },
+    { "type": "textarea", "id": "why_body", "label": "Why started body", "default": "We saw the need for modest fashion that doesn't compromise on style, quality, or faith. We wanted to build a brand that not only dresses women with care—but also gives back to those in need." },
+    { "type": "text", "id": "stand_for_heading", "label": "Values heading", "default": "What We Stand For" },
+    { "type": "image_picker", "id": "mission_image", "label": "Mission background photo" },
+    { "type": "text", "id": "mission_heading", "label": "Mission heading", "default": "Our Mission" },
+    { "type": "textarea", "id": "mission_body", "label": "Mission body", "default": "To inspire women to dress with modesty and confidence while making a positive impact in the world around us." }
+  ],
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Value",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [
+          { "value": "heart", "label": "Heart" },
+          { "value": "dress", "label": "Dress" },
+          { "value": "hands", "label": "Hands" },
+          { "value": "leaf", "label": "Leaf" }
+        ], "default": "heart" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "description", "label": "Description" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Our Story page" }]
+}
+{% endschema %}

@@ -769,3 +769,70 @@ main section { position: relative; z-index: 2; padding: clamp(4rem, 8vw, 7rem) v
 @media (max-width: 900px) {
   .pdp-layout { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   Our Story page
+   ============================================================ */
+.story-hero {
+  display: flex; flex-wrap: wrap; align-items: stretch;
+  min-height: clamp(420px, 42vw, 600px); background: var(--linen);
+}
+.story-hero-copy {
+  flex: 1 1 46%; min-width: 300px;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: clamp(6rem, 10vw, 9rem) clamp(1.5rem, 5vw, 4.5rem) clamp(2.5rem, 5vw, 4rem);
+}
+.story-hero-copy .breadcrumb { margin-bottom: 0.5rem; }
+.story-hero-copy h1 { font-size: var(--step-hero); line-height: 1; }
+.story-divider { display: block; width: 120px; height: 16px; margin: 1.5rem 0; color: var(--clay-deep); }
+.story-divider svg { width: 100%; height: 100%; }
+.story-divider--light { color: var(--linen); }
+.story-body p { margin-top: 0.9rem; color: var(--ink-soft); font-size: 1.0625rem; line-height: 1.7; max-width: 46ch; }
+.story-hero-photo { flex: 1 1 54%; min-width: 320px; margin: 0; overflow: hidden; }
+.story-hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+
+.story-journey {
+  display: flex; flex-wrap: wrap; max-width: var(--content-max); margin: 0 auto;
+  padding: clamp(3.5rem, 7vw, 6rem) var(--gutter);
+}
+.story-journey-col { flex: 1 1 44%; min-width: 260px; padding: 0 clamp(1rem, 3vw, 2.5rem); }
+.story-journey-divider { width: 1px; align-self: stretch; background: var(--sand-line); margin: 0 clamp(0.5rem, 2vw, 1rem); }
+.story-eyebrow {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--clay-deep);
+}
+.story-journey-col p:not(.story-eyebrow) { margin-top: 0.9rem; color: var(--ink-soft); font-size: 1.0625rem; line-height: 1.75; }
+
+.story-stand-for { background: var(--linen); padding: clamp(3.5rem, 7vw, 6rem) var(--gutter); text-align: center; }
+.story-stand-for h2 { font-size: var(--step-h2); }
+.story-values {
+  display: flex; flex-wrap: wrap; justify-content: center; max-width: var(--content-max); margin: clamp(2rem, 4vw, 3.5rem) auto 0;
+}
+.story-value {
+  flex: 1 1 220px; max-width: 280px; padding: 0 clamp(1rem, 3vw, 2rem);
+  border-left: 1px solid var(--sand-line);
+}
+.story-value:first-child { border-left: none; }
+.story-value-icon { display: inline-flex; color: var(--clay-deep); margin-bottom: 1rem; }
+.story-value-title { font-family: var(--font-display); font-size: 1.125rem; letter-spacing: 0.02em; text-transform: uppercase; }
+.story-value-desc { margin-top: 0.6rem; color: var(--ink-soft); font-size: 0.9375rem; line-height: 1.6; }
+
+.story-mission {
+  position: relative; background-size: cover; background-position: center;
+  padding: clamp(5rem, 10vw, 8rem) var(--gutter); text-align: center;
+}
+.story-mission::before { content: ""; position: absolute; inset: 0; background: rgba(36, 29, 24, 0.42); }
+.story-mission-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; color: var(--linen); }
+.story-mission-inner h2 { font-size: var(--step-h2); color: var(--linen); }
+.story-mission-inner .story-divider { margin-left: auto; margin-right: auto; }
+.story-mission-inner p { font-size: 1.0625rem; line-height: 1.7; }
+
+@media (max-width: 760px) {
+  .story-hero { flex-direction: column; }
+  .story-hero-photo { aspect-ratio: 4/5; width: 100%; }
+  .story-journey { flex-direction: column; }
+  .story-journey-divider { display: none; }
+  .story-journey-col { padding: 0 0 2rem; }
+  .story-value { flex: 1 1 100%; max-width: 360px; border-left: none; border-top: 1px solid var(--sand-line); padding-top: 2rem; margin-top: 2rem; }
+  .story-value:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+}

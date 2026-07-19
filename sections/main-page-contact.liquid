@@ -1,0 +1,75 @@
+<section class="pdp">
+  <p class="breadcrumb reveal"><a href="{{ routes.root_url }}">Home</a> <span>/</span> {{ page.title }}</p>
+
+  <div class="pdp-layout">
+    <div class="pdp-gallery reveal" style="display: block;">
+      <div class="pdp-info" style="max-width: 480px;">
+        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+        <h1>{{ page.title }}</h1>
+        {% if section.settings.intro != blank %}
+          <p class="pdp-description">{{ section.settings.intro }}</p>
+        {% endif %}
+        {% if page.content != blank %}
+          <div class="pdp-description">{{ page.content }}</div>
+        {% endif %}
+
+        {% if section.settings.email != blank %}
+          <div class="pdp-option">
+            <span class="pdp-option-label">Email</span>
+            <p class="pdp-description"><a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a></p>
+          </div>
+        {% endif %}
+        {% if section.settings.phone != blank %}
+          <div class="pdp-option">
+            <span class="pdp-option-label">Phone</span>
+            <p class="pdp-description"><a href="tel:{{ section.settings.phone }}">{{ section.settings.phone }}</a></p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="pdp-info reveal">
+      {% form 'contact', id: 'contact-form' %}
+        {% if form.posted_successfully? %}
+          <p class="join-note" style="opacity: 1; margin-bottom: 1.5rem;">Thanks — your message is in. We'll get back to you soon.</p>
+        {% elsif form.errors %}
+          <p class="join-note" style="opacity: 1; margin-bottom: 1.5rem;">{{ form.errors.messages.first }}</p>
+        {% endif %}
+
+        <div class="pdp-option" style="margin-top: 0;">
+          <label class="pdp-option-label" for="contact-name">Name</label>
+          <input type="text" id="contact-name" name="contact[name]" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" style="width: 100%; padding: 0.75rem; border: 1px solid var(--sand-line); background: none; font-family: var(--font-body); font-size: 0.95rem;">
+        </div>
+
+        <div class="pdp-option">
+          <label class="pdp-option-label" for="contact-email">Email <span aria-hidden="true">*</span></label>
+          <input type="email" id="contact-email" name="contact[email]" required value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" style="width: 100%; padding: 0.75rem; border: 1px solid var(--sand-line); background: none; font-family: var(--font-body); font-size: 0.95rem;">
+        </div>
+
+        <div class="pdp-option">
+          <label class="pdp-option-label" for="contact-phone">Phone</label>
+          <input type="tel" id="contact-phone" name="contact[phone]" value="{% if form.phone %}{{ form.phone }}{% endif %}" style="width: 100%; padding: 0.75rem; border: 1px solid var(--sand-line); background: none; font-family: var(--font-body); font-size: 0.95rem;">
+        </div>
+
+        <div class="pdp-option">
+          <label class="pdp-option-label" for="contact-message">Message <span aria-hidden="true">*</span></label>
+          <textarea id="contact-message" name="contact[body]" rows="6" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--sand-line); background: none; font-family: var(--font-body); font-size: 0.95rem; resize: vertical;">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-solid pdp-add">Send Message</button>
+      {% endform %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact page",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Get in Touch" },
+    { "type": "textarea", "id": "intro", "label": "Intro text", "default": "Questions about an order, sizing, or a custom request? We read every message." },
+    { "type": "text", "id": "email", "label": "Contact email", "default": "veilandvine.ca@gmail.com" },
+    { "type": "text", "id": "phone", "label": "Contact phone" }
+  ]
+}
+{% endschema %}

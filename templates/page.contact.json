@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main-page-contact": {
+      "type": "main-page-contact",
+      "settings": {
+        "eyebrow": "Get in Touch",
+        "intro": "Questions about an order, sizing, or a custom request? We read every message.",
+        "email": "veilandvine.ca@gmail.com"
+      }
+    }
+  },
+  "order": ["main-page-contact"]
+}

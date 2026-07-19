@@ -46,7 +46,15 @@
             {% if option_name_down == 'color' or option_name_down == 'colour' %}
               <div class="color-selector" data-option-index="{{ forloop.index0 }}">
                 {% for value in option.values %}
-                  <button type="button" class="color-swatch{% if option.selected_value == value %} is-active{% endif %}" data-value="{{ value | escape }}" data-color-name="{{ value | escape }}" aria-label="{{ value | escape }}" title="{{ value | escape }}"></button>
+                  <button
+                    type="button"
+                    class="color-swatch{% if option.selected_value == value %} is-active{% endif %}{% if value.swatch.color == blank and value.swatch.image == blank %} color-swatch--js{% endif %}"
+                    data-value="{{ value | escape }}"
+                    data-color-name="{{ value | escape }}"
+                    aria-label="{{ value | escape }}"
+                    title="{{ value | escape }}"
+                    {% if value.swatch.color %}style="background-color: {{ value.swatch.color }};"{% elsif value.swatch.image %}style="background-image: url('{{ value.swatch.image | image_url: width: 100 }}'); background-size: cover;"{% endif %}
+                  ></button>
                 {% endfor %}
               </div>
             {% else %}
@@ -193,7 +201,7 @@
     return null;
   }
 
-  document.querySelectorAll('.color-swatch').forEach(function (swatch) {
+  document.querySelectorAll('.color-swatch--js').forEach(function (swatch) {
     var resolved = swatchColor(swatch.dataset.colorName);
     if (resolved) {
       swatch.style.backgroundColor = resolved;

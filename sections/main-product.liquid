@@ -97,6 +97,12 @@
           <summary>Shipping &amp; Care</summary>
           <p>Ships in 3–5 business days. Hand wash cold or dry clean; hang to dry out of direct sun to protect the colour.</p>
         </details>
+        {% if product.description != blank %}
+          <details>
+            <summary>Description</summary>
+            {{ product.description }}
+          </details>
+        {% endif %}
       </div>
     </div>
   </div>

@@ -789,7 +789,7 @@ main section { position: relative; z-index: 2; padding: clamp(4rem, 8vw, 7rem) v
 .story-divider--light { color: var(--linen); }
 .story-body p { margin-top: 0.9rem; color: var(--ink-soft); font-size: 1.0625rem; line-height: 1.7; max-width: 46ch; }
 .story-hero-photo { flex: 1 1 54%; min-width: 320px; margin: 0; overflow: hidden; }
-.story-hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+.story-hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 
 .story-journey {
   display: flex; flex-wrap: wrap; max-width: var(--content-max); margin: 0 auto;
@@ -820,6 +820,7 @@ main section { position: relative; z-index: 2; padding: clamp(4rem, 8vw, 7rem) v
 .story-mission {
   position: relative; background-size: cover; background-position: center;
   padding: clamp(5rem, 10vw, 8rem) var(--gutter); text-align: center;
+  min-height: clamp(360px, 34vw, 520px); display: flex; align-items: center; justify-content: center;
 }
 .story-mission::before { content: ""; position: absolute; inset: 0; background: rgba(36, 29, 24, 0.42); }
 .story-mission-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; color: var(--linen); }
@@ -829,10 +830,11 @@ main section { position: relative; z-index: 2; padding: clamp(4rem, 8vw, 7rem) v
 
 @media (max-width: 760px) {
   .story-hero { flex-direction: column; }
-  .story-hero-photo { aspect-ratio: 4/5; width: 100%; }
+  .story-hero-photo { aspect-ratio: 4/3; width: 100%; }
   .story-journey { flex-direction: column; }
   .story-journey-divider { display: none; }
   .story-journey-col { padding: 0 0 2rem; }
   .story-value { flex: 1 1 100%; max-width: 360px; border-left: none; border-top: 1px solid var(--sand-line); padding-top: 2rem; margin-top: 2rem; }
   .story-value:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+  .story-mission { min-height: 320px; }
 }

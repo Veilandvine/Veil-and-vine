@@ -11,7 +11,7 @@
     {% if section.settings.hero_image != blank %}
       <img src="{{ section.settings.hero_image | image_url: width: 1400 }}" alt="{{ page.title | escape }}" loading="eager">
     {% else %}
-      <img src="{{ 'lookbook-flatlay-rack-2.png' | asset_url }}" alt="{{ page.title | escape }}" loading="eager">
+      <img src="{{ 'category-abayas.png' | asset_url }}" alt="{{ page.title | escape }}" loading="eager">
     {% endif %}
   </figure>
 </section>
@@ -62,7 +62,7 @@
 {% if section.settings.mission_image != blank %}
   {% assign mission_bg = section.settings.mission_image | image_url: width: 1600 %}
 {% else %}
-  {% assign mission_bg = 'lookbook-flatlay-fabrics.png' | asset_url %}
+  {% assign mission_bg = 'category-dresses.png' | asset_url %}
 {% endif %}
 <section class="story-mission" style="background-image: url('{{ mission_bg }}');">
   <div class="story-mission-inner reveal">

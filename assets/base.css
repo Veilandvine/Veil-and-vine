@@ -726,6 +726,17 @@ main section { position: relative; z-index: 2; padding: clamp(4rem, 8vw, 7rem) v
 .size-btn:hover { border-color: var(--clay-deep); }
 .size-btn.is-active { background: var(--ink); color: var(--linen); border-color: var(--ink); }
 
+.pdp-option-value { font-weight: 400; text-transform: none; letter-spacing: normal; color: var(--ink); margin-left: 0.4em; }
+.color-selector { display: flex; gap: 0.65rem; flex-wrap: wrap; }
+.color-swatch {
+  width: 34px; height: 34px; border-radius: 50%; padding: 0; cursor: pointer;
+  border: 1px solid var(--sand-line); background-color: var(--sand);
+  box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px transparent;
+  transition: box-shadow 0.2s ease;
+}
+.color-swatch:hover { box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px var(--clay-deep); }
+.color-swatch.is-active { box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px var(--ink); }
+
 .qty-stepper { display: inline-flex; align-items: center; gap: 1rem; border: 1px solid var(--sand-line); padding: 0.45rem 1rem; }
 .qty-stepper button { background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--ink); }
 .qty-stepper span { min-width: 1.2rem; text-align: center; font-weight: 600; }

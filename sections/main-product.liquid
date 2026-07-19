@@ -40,13 +40,22 @@
         <input type="hidden" name="id" id="pdp-variant-id" value="{{ current_variant.id }}">
 
         {% for option in product.options_with_values %}
+          {% assign option_name_down = option.name | downcase %}
           <div class="pdp-option">
-            <span class="pdp-option-label">{{ option.name }}</span>
-            <div class="size-selector" data-option-index="{{ forloop.index0 }}">
-              {% for value in option.values %}
-                <button type="button" class="size-btn{% if option.selected_value == value %} is-active{% endif %}" data-value="{{ value | escape }}">{{ value }}</button>
-              {% endfor %}
-            </div>
+            <span class="pdp-option-label">{{ option.name }}{% if option_name_down == 'color' or option_name_down == 'colour' %}<span class="pdp-option-value" data-selected-color>{{ option.selected_value }}</span>{% endif %}</span>
+            {% if option_name_down == 'color' or option_name_down == 'colour' %}
+              <div class="color-selector" data-option-index="{{ forloop.index0 }}">
+                {% for value in option.values %}
+                  <button type="button" class="color-swatch{% if option.selected_value == value %} is-active{% endif %}" data-value="{{ value | escape }}" data-color-name="{{ value | escape }}" aria-label="{{ value | escape }}" title="{{ value | escape }}"></button>
+                {% endfor %}
+              </div>
+            {% else %}
+              <div class="size-selector" data-option-index="{{ forloop.index0 }}">
+                {% for value in option.values %}
+                  <button type="button" class="size-btn{% if option.selected_value == value %} is-active{% endif %}" data-value="{{ value | escape }}">{{ value }}</button>
+                {% endfor %}
+              </div>
+            {% endif %}
           </div>
         {% endfor %}
 
@@ -136,23 +145,50 @@
   var priceEl = document.getElementById('pdp-price');
   var addBtn = document.getElementById('pdp-add-to-bag');
   var sizeNote = document.getElementById('pdp-size-note');
+  var mainImage = document.getElementById('pdp-main-image');
   var selected = [];
 
-  document.querySelectorAll('.size-selector').forEach(function (group) {
-    var idx = parseInt(group.dataset.optionIndex, 10);
-    var active = group.querySelector('.size-btn.is-active');
-    selected[idx] = active ? active.dataset.value : null;
+  var COLOR_MAP = {
+    'blush': '#e8c4c0', 'espresso': '#4a3428', 'espresso brown': '#4a3428',
+    'light blue': '#b7c9d9', 'dusty blue': '#a9bccb', 'sage': '#a3ac93',
+    'taupe': '#b3a394', 'camel': '#c19a6b', 'mocha': '#6f4e37', 'rust': '#a0522d',
+    'burgundy': '#5a2233', 'aubergine': '#4a2f3a', 'cream': '#f2ead9', 'ivory': '#f5f0e6',
+    'sand': '#d9c7a3', 'stone': '#b8ac9a', 'charcoal': '#3a3733', 'olive': '#6b6c4a',
+    'clay': '#b8763f', 'terracotta': '#c1663b', 'mauve': '#b48a9c'
+  };
 
-    group.querySelectorAll('.size-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        group.querySelectorAll('.size-btn').forEach(function (b) { b.classList.remove('is-active'); });
-        btn.classList.add('is-active');
-        selected[idx] = btn.dataset.value;
-        sizeNote.textContent = '';
-        updateVariant();
+  function swatchColor(name) {
+    var key = (name || '').toLowerCase().trim();
+    if (COLOR_MAP[key]) return COLOR_MAP[key];
+    return name;
+  }
+
+  document.querySelectorAll('.color-swatch').forEach(function (swatch) {
+    swatch.style.backgroundColor = swatchColor(swatch.dataset.colorName);
+  });
+
+  function selectorGroups(selector, btnClass) {
+    document.querySelectorAll(selector).forEach(function (group) {
+      var idx = parseInt(group.dataset.optionIndex, 10);
+      var active = group.querySelector('.' + btnClass + '.is-active');
+      selected[idx] = active ? active.dataset.value : null;
+
+      group.querySelectorAll('.' + btnClass).forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          group.querySelectorAll('.' + btnClass).forEach(function (b) { b.classList.remove('is-active'); });
+          btn.classList.add('is-active');
+          selected[idx] = btn.dataset.value;
+          sizeNote.textContent = '';
+          var valueLabel = group.parentElement.querySelector('[data-selected-color]');
+          if (valueLabel) valueLabel.textContent = btn.dataset.value;
+          updateVariant();
+        });
       });
     });
-  });
+  }
+
+  selectorGroups('.size-selector', 'size-btn');
+  selectorGroups('.color-selector', 'color-swatch');
 
   function updateVariant() {
     var match = product.variants.find(function (v) {
@@ -174,10 +210,15 @@
       addBtn.disabled = !match.available;
       addBtn.textContent = match.available ? 'Add to Bag' : 'Sold Out';
     }
+    if (match.featured_image && match.featured_image.src) {
+      mainImage.src = match.featured_image.src;
+      document.querySelectorAll('.pdp-gallery-thumb').forEach(function (t) {
+        t.classList.toggle('is-active', t.dataset.src.indexOf(match.featured_image.src.split('?')[0].split('/').pop()) !== -1);
+      });
+    }
   }
 
   /* Gallery thumb swap */
-  var mainImage = document.getElementById('pdp-main-image');
   document.querySelectorAll('.pdp-gallery-thumb').forEach(function (thumb) {
     thumb.addEventListener('click', function () {
       document.querySelectorAll('.pdp-gallery-thumb').forEach(function (t) { t.classList.remove('is-active'); });

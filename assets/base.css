@@ -736,6 +736,9 @@ main section { position: relative; z-index: 2; padding: clamp(4rem, 8vw, 7rem) v
 }
 .color-swatch:hover { box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px var(--clay-deep); }
 .color-swatch.is-active { box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px var(--ink); }
+.color-swatch--unknown {
+  background-image: linear-gradient(135deg, var(--sand) 0%, var(--sand) 45%, var(--sand-line) 45%, var(--sand-line) 55%, var(--sand) 55%, var(--sand) 100%);
+}
 
 .qty-stepper { display: inline-flex; align-items: center; gap: 1rem; border: 1px solid var(--sand-line); padding: 0.45rem 1rem; }
 .qty-stepper button { background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--ink); }

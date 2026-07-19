@@ -159,22 +159,47 @@
   var selected = [];
 
   var COLOR_MAP = {
-    'blush': '#e8c4c0', 'espresso': '#4a3428', 'espresso brown': '#4a3428',
-    'light blue': '#b7c9d9', 'dusty blue': '#a9bccb', 'sage': '#a3ac93',
-    'taupe': '#b3a394', 'camel': '#c19a6b', 'mocha': '#6f4e37', 'rust': '#a0522d',
-    'burgundy': '#5a2233', 'aubergine': '#4a2f3a', 'cream': '#f2ead9', 'ivory': '#f5f0e6',
-    'sand': '#d9c7a3', 'stone': '#b8ac9a', 'charcoal': '#3a3733', 'olive': '#6b6c4a',
-    'clay': '#b8763f', 'terracotta': '#c1663b', 'mauve': '#b48a9c'
+    'blush': '#e8c4c0', 'dustyrose': '#c9a0a5', 'dusty rose': '#c9a0a5', 'rosegold': '#e0b8ac', 'rose gold': '#e0b8ac',
+    'nude': '#e3bfa5', 'champagne': '#f0dfc5', 'offwhite': '#f5f0e6', 'off white': '#f5f0e6', 'ecru': '#e6dfc8',
+    'espresso': '#4a3428', 'espressobrown': '#4a3428', 'espresso brown': '#4a3428', 'chocolate': '#5a3825',
+    'lightblue': '#b7c9d9', 'light blue': '#b7c9d9', 'dustyblue': '#a9bccb', 'dusty blue': '#a9bccb',
+    'powderblue': '#c6dbe1', 'powder blue': '#c6dbe1', 'babyblue': '#c2e0f2', 'baby blue': '#c2e0f2',
+    'skyblue': '#a9d0e8', 'sky blue': '#a9d0e8', 'midnight': '#1f2430', 'midnightblue': '#1f2430',
+    'sage': '#a3ac93', 'sagegreen': '#a3ac93', 'sage green': '#a3ac93', 'olivegreen': '#6b6c4a', 'olive green': '#6b6c4a',
+    'forest': '#2f4033', 'forestgreen': '#2f4033', 'hunter': '#2b3b2c', 'huntergreen': '#2b3b2c', 'hunter green': '#2b3b2c',
+    'emerald': '#3b6255', 'khaki': '#c3b091',
+    'taupe': '#b3a394', 'camel': '#c19a6b', 'mocha': '#6f4e37', 'latte': '#a9835f', 'caramel': '#af6e3b', 'toffee': '#7b4a2d',
+    'rust': '#a0522d', 'terracotta': '#c1663b', 'brick': '#9c4a3a', 'copper': '#b6774a', 'bronze': '#8c6a3f',
+    'burgundy': '#5a2233', 'wine': '#5c2331', 'maroon': '#5a1f26', 'aubergine': '#4a2f3a', 'eggplant': '#4a2f3a', 'plum': '#6d4058',
+    'cream': '#f2ead9', 'ivory': '#f5f0e6', 'pearl': '#efe9de', 'oatmeal': '#ddd2bd', 'mushroom': '#c3b7a8', 'greige': '#c2b9ac',
+    'sand': '#d9c7a3', 'dune': '#d3c2a0', 'stone': '#b8ac9a', 'charcoal': '#3a3733', 'slate': '#5c6167', 'steel': '#7a8288', 'pewter': '#8e8d8a', 'graphite': '#41403e',
+    'clay': '#b8763f', 'mauve': '#b48a9c', 'mustard': '#c9a63c', 'amber': '#c68e2e',
+    'coral': '#e08d75', 'peach': '#f0c3a0', 'apricot': '#eab98a'
   };
 
   function swatchColor(name) {
-    var key = (name || '').toLowerCase().trim();
+    var raw = (name || '').trim();
+    var key = raw.toLowerCase();
+    var noSpace = key.replace(/[\s-]+/g, '');
     if (COLOR_MAP[key]) return COLOR_MAP[key];
-    return name;
+    if (COLOR_MAP[noSpace]) return COLOR_MAP[noSpace];
+    var probe = document.createElement('span');
+    probe.style.color = '';
+    probe.style.color = noSpace;
+    if (probe.style.color !== '') return noSpace;
+    probe.style.color = '';
+    probe.style.color = raw;
+    if (probe.style.color !== '') return raw;
+    return null;
   }
 
   document.querySelectorAll('.color-swatch').forEach(function (swatch) {
-    swatch.style.backgroundColor = swatchColor(swatch.dataset.colorName);
+    var resolved = swatchColor(swatch.dataset.colorName);
+    if (resolved) {
+      swatch.style.backgroundColor = resolved;
+    } else {
+      swatch.classList.add('color-swatch--unknown');
+    }
   });
 
   function selectorGroups(selector, btnClass) {
